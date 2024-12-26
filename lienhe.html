@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-position: center;
+            background-image: url(sanphamimg/banner2.jpg);
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-image: url(sanphamimg/banner2.jpg);
+        }
+        .contact-form {
+            background-size: cover;
+            background-position: center;
+            background-image: url(sanphamimg/bag32.png);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .contact-form h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #1a1818;
+        }
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #1a1818;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .contact-form button {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .contact-form button:hover {
+            background: #555;
+        }
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #ccc;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: #fff;
+            font-size: 20px;
+            transition: background 0.3s ease;
+        }
+        .social-icons a:hover {
+            background: #333;
+        }
+        .contact-info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #1a1818;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="contact-form">
+        <h2>Bạn cần hỗ trợ?</h2>
+        <form>
+            <label for="name">Họ tên*</label>
+            <input type="text" id="name" name="name" placeholder="Tên đầy đủ" required>
+            
+            <label for="email">Email*</label>
+            <input type="email" id="email" name="email" placeholder="Địa chỉ email" required>
+            
+            <label for="message">Tin nhắn*</label>
+            <textarea id="message" name="message" rows="4" placeholder="Đừng ngại hỏi về đơn hàng của bạn" required></textarea>
+            
+            <button type="submit">Gửi</button>
+        </form>
+        
+        <div class="social-icons">
+            <a href="home.html" style="background: #3b5998;">B</a>
+            <a href="home.html" style="background: #1da1f2;">O</a>
+            <a href="home.html" style="background: #ff4500;">O</a>
+        </div>
+        
+        <div class="contact-info">
+            <p>Địa chỉ: 123 Đường ABC, Phường XYZ</p>
+            <p>Số điện thoại: (0123) 456-789</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
