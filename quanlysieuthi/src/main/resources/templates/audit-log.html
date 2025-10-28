@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Lịch Sử Hành Động</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <style>
+        /* CSS cho bảng log */
+        .log-table th, .log-table td {
+            font-size: 0.9em; /* Cỡ chữ nhỏ hơn một chút */
+            vertical-align: top; /* Căn nội dung lên trên */
+        }
+        .log-table td:nth-child(1) { width: 160px; } /* Cột thời gian */
+        .log-table td:nth-child(2) { width: 120px; } /* Cột User */
+        .log-table td:nth-child(3) { width: 180px; font-weight: bold;} /* Cột Hành động */
+        .log-table td:nth-child(4) { white-space: pre-wrap; word-break: break-word; } /* Cột Chi tiết */
+    </style>
+</head>
+<body>
+    <div th:replace="~{fragments/_header :: header}"></div>
+
+    <div class="container">
+        <h1>Lịch Sử Hành Động Hệ Thống</h1>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <table class="log-table">
+            <thead>
+                <tr>
+                    <th>Thời gian</th>
+                    <th>Người thực hiện</th>
+                    <th>Hành động</th>
+                    <th>Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="log : ${auditLogs}">
+                    <td th:text="${#temporals.format(log.timestamp, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                    <td th:text="${log.username}"></td>
+                    <td th:text="${log.action}"></td>
+                    <td th:text="${log.details}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(auditLogs)}">
+                    <td colspan="4" class="text-center">Chưa có lịch sử hành động nào được ghi lại.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 20px;">
+             <a th:href="@{/banhang}" class="button-link">Quay lại trang Bán Hàng</a>
+         </p>
+
+    </div> </body>
+</html>

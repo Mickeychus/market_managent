@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <head>
+    <meta charset="UTF-8">
+    <title>Danh sách Hóa Đơn</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    </head>
+<body>
+    <div th:replace="~{fragments/_header :: header}"></div>
+
+    <div class="container">
+        <h1>Danh sách Hóa Đơn Đã Lưu</h1>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Hóa Đơn</th>
+                    <th>Tên Khách Hàng</th>
+                    <th>Ngày Tạo</th>
+                    <th class="text-right">Tổng Tiền</th>
+                    <th class="text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="hd : ${danhSachHD}">
+                    <td th:text="${hd.id}"></td>
+                    <td th:text="${hd.tenKhachHang}"></td>
+                    <td th:text="${#temporals.format(hd.ngayTao, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                    <td class="text-right" th:text="${#numbers.formatDecimal(hd.tongTien, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td class="actions text-center">
+                        <a th:href="@{/hoadon/{id}(id=${hd.id})}" class="button-link edit-link">Xem Chi tiết</a>
+                        <a th:href="@{/hoadon/xoa/{id}(id=${hd.id})}"
+                           class="button-link delete-link"
+                           onclick="return confirm('Bạn có chắc chắn muốn XÓA hóa đơn này không? Hành động này không thể hoàn tác!');"
+                           sec:authorize="hasRole('ADMIN')">Xóa</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(danhSachHD)}">
+                    <td colspan="5" class="text-center">Chưa có hóa đơn nào được lưu.</td>
+                </tr>
+            </tbody>
+        </table>
+
+         <p style="margin-top: 20px;">
+             <a th:href="@{/banhang}" class="button-link">Quay lại trang Bán Hàng</a>
+         </p>
+
+    </div> </body>
+</html>

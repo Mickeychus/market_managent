@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Chi tiết Hóa Đơn #' + ${hoaDon?.id ?: 'N/A'}">Chi tiết Hóa Đơn</title> <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <style>
+        /* CSS bổ sung cho trang chi tiết */
+        .invoice-details { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee;}
+        .invoice-details p { margin: 8px 0; font-size: 1.05em; } /* Tăng cỡ chữ, khoảng cách */
+        .invoice-details strong { display: inline-block; width: 160px; color: #555;} /* Tăng chiều rộng label */
+        .items-table th { background-color: #e9ecef; } /* Đồng bộ màu header bảng */
+        .items-table td { padding: 10px 12px; } /* Đồng bộ padding */
+        .total-row td { font-weight: bold; font-size: 1.1em; border-top: 2px solid #333; } /* Tổng cộng rõ ràng hơn */
+        .action-buttons { margin-top: 30px; } /* Khoảng cách cho nút */
+    </style>
+</head>
+<body>
+    <div th:replace="~{fragments/_header :: header}"></div>
+
+    <div class="container">
+        <div th:if="${hoaDon}">
+            <h1 th:text="'Chi tiết Hóa Đơn #' + ${hoaDon.id}">Chi tiết Hóa Đơn</h1>
+
+            <div class="invoice-details">
+                <p><strong>ID Hóa Đơn:</strong> <span th:text="${hoaDon.id}"></span></p>
+                <p><strong>Tên Khách Hàng:</strong> <span th:text="${hoaDon.tenKhachHang}"></span></p>
+                <p><strong>Ngày Tạo:</strong> <span th:text="${#temporals.format(hoaDon.ngayTao, 'dd/MM/yyyy HH:mm:ss')}"></span></p>
+                <p><strong>Tổng Tiền:</strong> <span class="text-right" style="font-weight: bold; color: #dc3545;" th:text="${#numbers.formatDecimal(hoaDon.tongTien, 1, 'COMMA', 2, 'POINT')}"></span></p> </div>
+
+            <h2>Các mặt hàng đã mua</h2>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Tên Sản Phẩm</th>
+                        <th class="text-center">Số Lượng</th>
+                        <th class="text-right">Đơn Giá</th>
+                        <th class="text-right">Thành Tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${hoaDon.chiTiet}">
+                        <td th:text="${item.tenSanPham}"></td>
+                        <td class="text-center" th:text="${item.soLuong}"></td>
+                        <td class="text-right" th:text="${#numbers.formatDecimal(item.donGia, 1, 'COMMA', 2, 'POINT')}"></td>
+                        <td class="text-right" th:text="${#numbers.formatDecimal(item.soLuong * item.donGia, 1, 'COMMA', 2, 'POINT')}"></td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3" class="text-right"><strong>Tổng cộng:</strong></td>
+                        <td class="text-right" th:text="${#numbers.formatDecimal(hoaDon.tongTien, 1, 'COMMA', 2, 'POINT')}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="action-buttons">
+                <a th:href="@{/hoadon}" class="button-link">Quay lại Danh sách</a>
+                <button onclick="window.print();" class="button-link edit-link" style="margin-left: 10px;">In Hóa Đơn</button>
+            </div>
+
+        </div>
+        <div th:if="${hoaDon == null}">
+             <div class="alert alert-danger">Không tìm thấy hóa đơn bạn yêu cầu.</div>
+             <p><a th:href="@{/hoadon}" class="button-link">Quay lại Danh sách Hóa đơn</a></p>
+        </div>
+
+    </div> </body>
+</html>

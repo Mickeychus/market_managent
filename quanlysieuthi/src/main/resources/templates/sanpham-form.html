@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Thêm/Sửa Sản phẩm</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <style>
+        .form-container { max-width: 600px; margin: 20px auto; }
+        /* Style cho thông báo lỗi validation */
+        .error-message { color: #dc3545; /* Màu đỏ đậm hơn */ font-size: 0.85em; margin-top: -5px; margin-bottom: 10px; display: block;}
+         /* Đánh dấu input bị lỗi (tùy chọn) */
+         input.error, select.error { border-color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div th:replace="~{fragments/_header :: header}"></div>
+
+    <div class="container form-container">
+        <h1 th:text="${pageTitle}">Thêm/Sửa Sản phẩm</h1>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <form th:action="@{/sanpham/luu}" th:object="${sanPhamMoi}" method="post">
+            <input type="hidden" th:field="*{id}" />
+
+            <div>
+                <label for="tenSP">Tên Sản Phẩm:</label>
+                <input type="text" id="tenSP" th:field="*{tenSP}" th:classappend="${#fields.hasErrors('tenSP')} ? 'error' : ''" />
+                <span class="error-message" th:if="${#fields.hasErrors('tenSP')}" th:errors="*{tenSP}"></span>
+            </div>
+            <div>
+                <label for="ngayNhap">Ngày Nhập (dd/mm/yyyy):</label>
+                <input type="text" id="ngayNhap" th:field="*{ngayNhap}" placeholder="Ví dụ: 29/10/2025" th:classappend="${#fields.hasErrors('ngayNhap')} ? 'error' : ''" />
+                <span class="error-message" th:if="${#fields.hasErrors('ngayNhap')}" th:errors="*{ngayNhap}"></span>
+            </div>
+            <div>
+                <label for="soLuong">Số Lượng:</label>
+                <input type="number" id="soLuong" th:field="*{soLuong}" th:classappend="${#fields.hasErrors('soLuong')} ? 'error' : ''" />
+                <span class="error-message" th:if="${#fields.hasErrors('soLuong')}" th:errors="*{soLuong}"></span>
+            </div>
+            <div>
+                <label for="phanLoai">Phân Loại:</label>
+                <select id="phanLoai" th:field="*{phanLoai}" th:classappend="${#fields.hasErrors('phanLoai')} ? 'error' : ''">
+                    <option value="">-- Chọn Phân Loại --</option>
+                    <option value="Thực phẩm">Thực phẩm</option>
+                    <option value="Hoa quả">Hoa quả</option>
+                    <option value="Bánh kẹo">Bánh kẹo</option>
+                    <option value="Giày dép">Giày dép</option>
+                    <option value="May mặc">May mặc</option>
+                </select>
+                <span class="error-message" th:if="${#fields.hasErrors('phanLoai')}" th:errors="*{phanLoai}"></span>
+            </div>
+             <div>
+                <label for="giaNhap">Giá Nhập:</label>
+                <input type="number" step="any" id="giaNhap" th:field="*{giaNhap}" th:classappend="${#fields.hasErrors('giaNhap')} ? 'error' : ''" />
+                <span class="error-message" th:if="${#fields.hasErrors('giaNhap')}" th:errors="*{giaNhap}"></span>
+            </div>
+             <div>
+                <label for="giaDeXuat">Giá Đề Xuất:</label>
+                <input type="number" step="any" id="giaDeXuat" th:field="*{giaDeXuat}" th:classappend="${#fields.hasErrors('giaDeXuat')} ? 'error' : ''" />
+                <span class="error-message" th:if="${#fields.hasErrors('giaDeXuat')}" th:errors="*{giaDeXuat}"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Lưu Sản phẩm</button>
+                <a th:href="@{/sanpham}">Hủy</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

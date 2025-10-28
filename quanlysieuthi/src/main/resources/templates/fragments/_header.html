@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head></head>
+<body>
+    <header th:fragment="header" class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <a th:href="@{/banhang}">Quản Lý Siêu Thị</a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a th:href="@{/banhang}">Bán Hàng</a></li>
+                    <li sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/sanpham}">Quản lý Sản phẩm</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/hoadon}">Hóa Đơn</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/thongke}">Thống Kê</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/users}">Quản lý Tài khoản</a>
+                    </li>
+                    <li sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/auditlog}">Lịch Sử</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <span sec:authorize="isAuthenticated()">
+                    Xin chào, <strong sec:authentication="name">Username</strong>!
+                    <form th:action="@{/logout}" method="post" style="display: inline; margin-left: 10px;">
+                        <button type="submit" class="logout-button">Đăng xuất</button>
+                    </form>
+                </span>
+                 <span sec:authorize="!isAuthenticated()"></span>
+            </div>
+        </div>
+    </header>
+</body>
+</html>

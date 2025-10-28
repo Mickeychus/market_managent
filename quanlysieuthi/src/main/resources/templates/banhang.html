@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Bán Hàng</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    </head>
+<body>
+
+    <div th:replace="~{fragments/_header :: header}"></div>
+
+    <div class="container flex-container">
+
+        <div id="danh-sach-sp" class="column">
+            <h2>Danh sách Sản phẩm</h2>
+            <table>
+                 <thead>
+                    <tr>
+                        <th>Tên</th>
+                        <th class="text-center">Tồn Kho</th>
+                        <th class="text-right">Giá Bán</th>
+                        <th class="text-center">Số Lượng</th>
+                        <th class="text-center">Thêm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="sp : ${danhSachSP}" th:if="${sp.soLuong > 0}">
+                        <td th:text="${sp.tenSP}"></td>
+                        <td class="text-center" th:text="${sp.soLuong}"></td>
+                        <td class="text-right" th:text="${#numbers.formatDecimal(sp.giaDeXuat, 1, 'COMMA', 2, 'POINT')}"></td>
+                        <td class="text-center">
+                            <form th:action="@{/banhang/them}" method="post" class="form-inline">
+                                <input type="hidden" name="sanPhamId" th:value="${sp.id}" />
+                                <input type="number" name="soLuongMua" value="1" min="1" th:max="${sp.soLuong}" required />
+                        </td>
+                        <td class="text-center">
+                                <button type="submit">Thêm</button>
+                            </form>
+                        </td>
+                    </tr>
+                     <tr th:if="${#lists.isEmpty(danhSachSP) or #lists.size(#lists.sort(danhSachSP.?[soLuong > 0])) == 0}">
+                         <td colspan="5" class="text-center">Không có sản phẩm nào trong kho hoặc đã hết hàng.</td>
+                    </tr>
+                </tbody>
+            </table>
+             </div>
+
+        <div id="gio-hang" class="column">
+            <h2>Hóa đơn Tạm / Giỏ Hàng</h2>
+
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên Hàng</th>
+                        <th>Số Lượng</th>
+                        <th class="text-right">Đơn Giá</th>
+                        <th class="text-right">Thành Tiền</th>
+                        <th class="text-center">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${gioHang}">
+                        <td th:text="${item.tenHang}"></td>
+                        <td class="text-center">
+                            <form th:action="@{/banhang/capnhat}" method="post" class="update-form form-inline">
+                                <input type="hidden" name="sanPhamId" th:value="${item.sanPhamId}" />
+                                <input type="number" name="soLuongMoi" th:value="${item.soLuong}" min="1" required />
+                                <button type="submit" class="update">Cập nhật</button> </form>
+                        </td>
+                        <td class="text-right" th:text="${#numbers.formatDecimal(item.donGia, 1, 'COMMA', 2, 'POINT')}"></td>
+                        <td class="text-right" th:text="${#numbers.formatDecimal(item.thanhTien, 1, 'COMMA', 2, 'POINT')}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/banhang/xoa/{sanPhamId}(sanPhamId=${item.sanPhamId})}"
+                               class="button-link delete-link"
+                               onclick="return confirm('Xóa mặt hàng này khỏi giỏ?');">Xóa</a>
+                        </td>
+                    </tr>
+                     <tr th:if="${#lists.isEmpty(gioHang)}">
+                        <td colspan="5" class="text-center">Giỏ hàng trống.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="tong-tien" class="text-right">
+                Tổng Tiền: <span th:text="${#numbers.formatDecimal(tongTien, 1, 'COMMA', 2, 'POINT')}">0.00</span>
+            </div>
+
+            <div id="luu-hoa-don-form" th:if="${not #lists.isEmpty(gioHang)}">
+                 <form th:action="@{/banhang/luuhoadon}" method="post">
+                     <div>
+                         <label for="tenKhachHang">Tên Khách Hàng:</label>
+                         <input type="text" id="tenKhachHang" name="tenKhachHang" required placeholder="Nhập tên khách hàng..."/>
+                     </div>
+                     <button type="submit">Lưu Hóa Đơn</button> </form>
+            </div>
+        </div>
+
+    </div> </body>
+</html>

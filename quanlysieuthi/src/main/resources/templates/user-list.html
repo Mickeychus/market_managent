@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Người Dùng</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div th:replace="~{fragments/_header :: header}"></div>
+
+    <div class="container">
+        <h1>Quản lý Người Dùng</h1>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <p><a th:href="@{/users/them}" class="button-link">Thêm Người Dùng Mới</a></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Đăng Nhập</th>
+                    <th>Vai Trò</th>
+                    <th class="text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.role}"></td>
+                    <td class="actions text-center">
+                        <a th:href="@{/users/sua/{id}(id=${user.id})}" class="button-link edit-link">Sửa</a>
+                        <a th:href="@{/users/xoa/{id}(id=${user.id})}"
+                           class="button-link delete-link"
+                           onclick="return confirm('Bạn có chắc chắn muốn XÓA người dùng này?');"
+                           th:if="${#authentication.name != user.username}">Xóa</a> <span th:if="${#authentication.name == user.username}" style="color: grey; font-size: 0.9em;">(Không thể tự xóa)</span>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(users)}">
+                    <td colspan="4" class="text-center">Không có người dùng nào.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 20px;"><a th:href="@{/banhang}" class="button-link">Quay lại trang Bán Hàng</a></p>
+
+    </div>
+</body>
+</html>

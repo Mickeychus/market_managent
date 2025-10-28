@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập Hệ thống</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <style>
+        /* CSS riêng cho trang đăng nhập */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+             padding-top: 0; /* Ghi đè padding-top của body chung */
+             position: static; /* Ghi đè position của body chung */
+        }
+         /* Ghi đè container để phù hợp trang login */
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 380px;
+            text-align: center;
+            margin: 0; /* Ghi đè margin của .container */
+        }
+        .login-container h1 {
+            color: #006666;
+            margin-bottom: 25px;
+            border-bottom: none;
+            font-size: 1.8em;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: calc(100% - 24px); /* Điều chỉnh lại width */
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        /* Sử dụng style nút chung nhưng đảm bảo width */
+        .login-container button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 1.1em;
+        }
+        .alert { margin-top: 15px; }
+
+    </style>
+</head>
+<body>
+    <div class="login-container"> <h1>Đăng nhập Hệ thống</h1>
+
+        <div th:if="${param.error}" class="alert alert-danger">
+            Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+            Bạn đã đăng xuất thành công.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="username">Tên đăng nhập:</label>
+                <input type="text" id="username" name="username" required autofocus placeholder="Nhập tên đăng nhập"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" name="password" required placeholder="Nhập mật khẩu"/>
+            </div>
+            <button type="submit">Đăng nhập</button> </form>
+    </div>
+</body>
+</html>

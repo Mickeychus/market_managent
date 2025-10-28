@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Sản phẩm</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    </head>
+<body>
+    <div th:replace="~{fragments/_header :: header}"></div>
+
+    <div class="container">
+        <h1>Danh sách Sản phẩm</h1>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <p><a th:href="@{/sanpham/them}" class="button-link">Thêm Sản phẩm Mới</a></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Ngày Nhập</th>
+                    <th class="text-right">Số Lượng</th>
+                    <th>Phân Loại</th>
+                    <th class="text-right">Giá Nhập</th>
+                    <th class="text-right">Giá Đề Xuất</th>
+                    <th class="text-center">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sp : ${danhSachSP}">
+                    <td th:text="${sp.id}"></td>
+                    <td th:text="${sp.tenSP}"></td>
+                    <td th:text="${sp.ngayNhap}"></td>
+                    <td class="text-right" th:text="${sp.soLuong}"></td>
+                    <td th:text="${sp.phanLoai}"></td>
+                    <td class="text-right" th:text="${#numbers.formatDecimal(sp.giaNhap, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td class="text-right" th:text="${#numbers.formatDecimal(sp.giaDeXuat, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td class="actions text-center">
+                        <a th:href="@{/sanpham/sua/{id}(id=${sp.id})}" class="button-link edit-link">Sửa</a>
+                        <a th:href="@{/sanpham/xoa/{id}(id=${sp.id})}"
+                           class="button-link delete-link"
+                           onclick="return confirm('Bạn có chắc chắn muốn xoá sản phẩm này?');">Xoá</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(danhSachSP)}">
+                    <td colspan="8" class="text-center">Không có sản phẩm nào.</td>
+                </tr>
+            </tbody>
+        </table>
+
+         </div> </body>
+</html>
