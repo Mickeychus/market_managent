@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <head>
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
     <meta charset="UTF-8">
     <title>Danh sách Hóa Đơn</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    </head>
+</head>
 <body>
     <div th:replace="~{fragments/_header :: header}"></div>
-
     <div class="container">
         <h1>Danh sách Hóa Đơn Đã Lưu</h1>
 
@@ -32,6 +32,10 @@
                     <td class="text-right" th:text="${#numbers.formatDecimal(hd.tongTien, 1, 'COMMA', 2, 'POINT')}"></td>
                     <td class="actions text-center">
                         <a th:href="@{/hoadon/{id}(id=${hd.id})}" class="button-link edit-link">Xem Chi tiết</a>
+                        <a th:href="@{/hoadon/sua/{id}(id=${hd.id})}"
+                           class="button-link edit-link"
+                           sec:authorize="hasRole('ADMIN')">Sửa</a>
+                           
                         <a th:href="@{/hoadon/xoa/{id}(id=${hd.id})}"
                            class="button-link delete-link"
                            onclick="return confirm('Bạn có chắc chắn muốn XÓA hóa đơn này không? Hành động này không thể hoàn tác!');"
@@ -47,6 +51,6 @@
          <p style="margin-top: 20px;">
              <a th:href="@{/banhang}" class="button-link">Quay lại trang Bán Hàng</a>
          </p>
-
-    </div> </body>
+    </div>
+</body>
 </html>

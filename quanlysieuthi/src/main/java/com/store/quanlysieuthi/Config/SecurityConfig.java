@@ -28,11 +28,12 @@ public class SecurityConfig {
                     // Các trang ADMIN ONLY
                     .requestMatchers("/sanpham/**").hasRole("ADMIN")
                     .requestMatchers("/hoadon/xoa/**").hasRole("ADMIN")
+                    .requestMatchers("/hoadon/sua/**").hasRole("ADMIN") // **THÊM MỚI**
                     .requestMatchers("/thongke/**").hasRole("ADMIN")
                     .requestMatchers("/users/**").hasRole("ADMIN")
-                    .requestMatchers("/auditlog/**").hasRole("ADMIN") // **THÊM MỚI**
+                    .requestMatchers("/auditlog/**").hasRole("ADMIN")
                     // Các trang ADMIN & USER
-                    .requestMatchers("/hoadon/**").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/hoadon/**").hasAnyRole("ADMIN", "USER") // Quy tắc chung này phải ở sau
                     .requestMatchers("/banhang/**").hasAnyRole("ADMIN", "USER")
                     // Trang login và trang chủ
                     .requestMatchers("/login", "/").permitAll()
