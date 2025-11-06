@@ -16,13 +16,13 @@ Hệ thống được phát triển bằng **Spring Boot** sử dụng kiến tr
 - **Dữ liệu:** Spring Data JPA, Cloud MySQL (Aiven)
 
 ---
-##  UML Sequence Diagram
+## UML Sequence Diagram
 <p align="center">
   <i>*Lưu ý: Các sơ đồ cần được vẽ lại để phản ánh kiến trúc Spring Boot (Controller, Service, Repository).*</i>
   <br>
   
   <br>
-  <img src="UML%20Sequence%20Diagram.png" alt="Sequence Diagram" width="600">
+  <img src="UML%20Sequence%20Diagram.png" alt="Sequence Diagram" width="600">
 </p>
 
 ## UML Class Diagram
@@ -31,7 +31,7 @@ Hệ thống được phát triển bằng **Spring Boot** sử dụng kiến tr
   <br>
   
   <br>
-  <img src="UML%20Class%20Diagram.jpg" alt="Class Diagram" width="600">
+  <img src="UML%20Class%20Diagram.jpg" alt="Class Diagram" width="600">
 </p>
 
 ---
@@ -124,9 +124,9 @@ Sử dụng `@Valid` để kiểm tra validation từ Entity `SanPham`.
 // CREATE & UPDATE
 @PostMapping("/sanpham/luu")
 public String luuSanPham(@Valid @ModelAttribute("sanPhamMoi") SanPham sanPham,
-                         BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes,
-                         Model model) {
+                           BindingResult bindingResult,
+                           RedirectAttributes redirectAttributes,
+                           Model model) {
     if (bindingResult.hasErrors()) {
         model.addAttribute("pageTitle", (sanPham.getId() == null) ? "Thêm Sản phẩm Mới (Lỗi)" : "Sửa Sản phẩm (Lỗi)");
         return "sanpham-form"; // Quay lại form nếu có lỗi
@@ -138,7 +138,7 @@ public String luuSanPham(@Valid @ModelAttribute("sanPhamMoi") SanPham sanPham,
         // Ghi log
         String action = isNew ? "CREATE_PRODUCT" : "UPDATE_PRODUCT";
         String details = String.format("ID: %d, Tên: %s, SL: %d",
-                                       savedSanPham.getId(), savedSanPham.getTenSP(), savedSanPham.getSoLuong());
+                                        savedSanPham.getId(), savedSanPham.getTenSP(), savedSanPham.getSoLuong());
         auditLogService.logAction(action, details);
         
         redirectAttributes.addFlashAttribute("successMessage", isNew ? "Đã thêm!" : "Đã cập nhật!");
@@ -148,7 +148,7 @@ public String luuSanPham(@Valid @ModelAttribute("sanPhamMoi") SanPham sanPham,
     }
     return "redirect:/sanpham";
 }
-### 4.2. HoaDonController (Delete)
+4.2. HoaDonController (Delete)
 Sử dụng @Transactional để đảm bảo việc xóa và trả tồn kho diễn ra an toàn.
 
 Java
@@ -187,7 +187,7 @@ public String xoaHoaDon(@PathVariable("id") Long id, RedirectAttributes redirect
     }
     return "redirect:/hoadon";
 }
-### 4.3. UserService (Delete)
+4.3. UserService (Delete)
 Xử lý logic nghiệp vụ (ngăn tự xóa) trong Service trước khi gọi Repository.
 
 Java
@@ -210,20 +210,16 @@ public void deleteUser(Long id) throws Exception {
     userRepository.deleteById(id); // Gọi Repository
     auditLogService.logAction("DELETE_USER", details);
 }
-### 🚀 Hướng dẫn sử dụng
+🚀 Hướng dẫn sử dụng
 Khởi chạy: Chạy tệp QuanlysieuthiApplication.java.
 
 Truy cập: Mở trình duyệt và đi đến http://localhost:8080/ (sẽ tự chuyển đến trang đăng nhập).
 
 Đăng nhập:
 
-Tài khoản Admin:
+Tài khoản Admin: admin / admin
 
-admin / admin
-
-Tài khoản User:
-
-user / user
+Tài khoản User: user / user
 
 Menu (Header):
 
@@ -241,7 +237,7 @@ Lịch Sử: (Admin) Xem nhật ký hệ thống.
 
 Xin chào, [username]! [Đăng xuất]: Hiển thị thông tin đăng nhập.
 
-### 📖 Tài liệu tham khảo
+📖 Tài liệu tham khảo
 (Giữ nguyên các tài liệu tham khảo của bạn, nhưng thay thế các tài liệu về XML/Swing bằng Spring Boot/JPA)
 
 Spring.io (2024). Spring Boot Reference Documentation. URL: https://docs.spring.io/spring-boot/docs/current/reference/html/
