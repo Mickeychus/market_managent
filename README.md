@@ -210,7 +210,10 @@ public void deleteUser(Long id) throws Exception {
     userRepository.deleteById(id); // Gọi Repository
     auditLogService.logAction("DELETE_USER", details);
 }
-🚀 Hướng dẫn sử dụng
+
+---
+
+## 🚀 Hướng dẫn sử dụng
 Khởi chạy: Chạy tệp QuanlysieuthiApplication.java.
 
 Truy cập: Mở trình duyệt và đi đến http://localhost:8080/ (sẽ tự chuyển đến trang đăng nhập).
@@ -237,7 +240,9 @@ Lịch Sử: (Admin) Xem nhật ký hệ thống.
 
 Xin chào, [username]! [Đăng xuất]: Hiển thị thông tin đăng nhập.
 
-📖 Tài liệu tham khảo
+---
+
+## 📖 Tài liệu tham khảo
 (Giữ nguyên các tài liệu tham khảo của bạn, nhưng thay thế các tài liệu về XML/Swing bằng Spring Boot/JPA)
 
 Spring.io (2024). Spring Boot Reference Documentation. URL: https://docs.spring.io/spring-boot/docs/current/reference/html/
